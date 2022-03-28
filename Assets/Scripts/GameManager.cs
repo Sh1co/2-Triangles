@@ -13,48 +13,82 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Objects _target2;
     [SerializeField] private float _initialSpawnDelay = 1.0f;
     [SerializeField] private float _movementSpeed = 5.0f;
+    [SerializeField] private GameObject _levelLostScreen;
 
 
     public void LevelLost()
     {
-        
+        Pause();
+        _levelLostScreen.SetActive(true);
+    }
+
+    public void ResetLevel()
+    {
+        _scoreCounter.ResetScore();
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Object"))
+        {
+            Destroy(obj);
+        }
+        playing = true;
     }
     
     public void GainPoint()
     {
-        
+        _scoreCounter.Add(1);
     }
     
+    private void Play()
+    {
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Object"))
+        {
+            obj.GetComponent<Objects>().MovementSpeed = _movementSpeed;
+        }
+
+        playing = true;
+    }
+
+    private void Pause()
+    {
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Object"))
+        {
+            obj.GetComponent<Objects>().MovementSpeed = 0;
+        }
+
+        playing = false;
+    }
     
     private void Start()
     {
-        spawnHeight = Screen.height * 1.1f;
-        spawnHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, spawnHeight, 0)).y;
+        _spawnHeight = Screen.height * 1.1f;
+        _spawnHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, _spawnHeight, 0)).y;
         
-        despawnHeight = -Screen.height * 0.1f;
-        despawnHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, spawnHeight, 0)).y;
+        _despawnHeight = -Screen.height * 0.1f;
+        _despawnHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, _spawnHeight, 0)).y;
+
+        _scoreCounter = GetComponent<ScoreCounter>();
     }
 
     private void Update()
     {
+        if (!playing) return;
         IncrementCounters(Time.deltaTime);
-        if (spawnCounter1 >= _initialSpawnDelay)
+        if (_spawnCounter1 >= _initialSpawnDelay)
         {
-            spawnCounter1 = 0;
+            _spawnCounter1 = 0;
             SpawnObject(true);
         }
-        if (spawnCounter2 >= _initialSpawnDelay)
+        if (_spawnCounter2 >= _initialSpawnDelay)
         {
-            spawnCounter2 = 0;
-            SpawnObject(true);
+            _spawnCounter2 = 0;
+            SpawnObject(false);
         }
         
     }
 
     private void IncrementCounters(float deltaTime)
     {
-        spawnCounter1 += deltaTime;
-        spawnCounter2 += deltaTime;
+        _spawnCounter1 += deltaTime;
+        _spawnCounter2 += deltaTime;
     }
 
     private void SpawnObject(bool car1)
@@ -74,15 +108,17 @@ public class GameManager : MonoBehaviour
         var spawnObj = objectOdds >= 50 ? obstacle : target;
         var spawnLane = laneOdds >= 50 ? rightLane : leftLane;
 
-        var obj = Instantiate(spawnObj, new Vector3(spawnLane, spawnHeight), quaternion.identity);
+        var obj = Instantiate(spawnObj, new Vector3(spawnLane, _spawnHeight), quaternion.identity);
         obj.GM = this;
         obj.MovementSpeed = _movementSpeed;
-        obj.DespawnHeight = despawnHeight;
+        obj.DespawnHeight = _despawnHeight;
     }
     
 
-    private float spawnCounter1 = 0;
-    private float spawnCounter2 = -0.1f;
-    private float spawnHeight;
-    private float despawnHeight;
+    private float _spawnCounter1 = 0;
+    private float _spawnCounter2 = -0.1f;
+    private float _spawnHeight;
+    private float _despawnHeight;
+    private ScoreCounter _scoreCounter;
+    private bool playing = true;
 }

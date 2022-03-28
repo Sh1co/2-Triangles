@@ -8,6 +8,7 @@ public class CarMovement : MonoBehaviour
 {
     [SerializeField] private bool isCarOne;
     [SerializeField] private float switchSpeed = 1.0f;
+    [SerializeField] private GameManager GM;
 
     private void Start()
     {
@@ -20,19 +21,7 @@ public class CarMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touchCount > 0)
-        {
-            foreach (var touch in Input.touches)
-            {
-                if(touch.phase != TouchPhase.Ended) return;
-                if ((touch.position.x <= Screen.width / 2 && isCarOne) ||
-                    (touch.position.x > Screen.width / 2 && !isCarOne))
-                {
-                    MoveCar();
-                }
-            }
-        }
-
+        if (!GM.IsPlaying()) return;
         if ((isRight && transform.position.x < rightLane) ||
             (!isRight && transform.position.x > leftLane))
         {
@@ -43,6 +32,17 @@ public class CarMovement : MonoBehaviour
             var pos = transform.position;
             pos.x = isRight ? rightLane : leftLane;
             transform.position = pos;
+
+            if (Input.touchCount <= 0) return;
+            foreach (var touch in Input.touches)
+            {
+                if(touch.phase != TouchPhase.Began) return;
+                if ((touch.position.x <= Screen.width / 2 && isCarOne) ||
+                    (touch.position.x > Screen.width / 2 && !isCarOne))
+                {
+                    MoveCar();
+                }
+            }
         }
     }
 

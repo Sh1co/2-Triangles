@@ -11,9 +11,9 @@ namespace DefaultNamespace
             base.Despawn();
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D col)
         {
-            if (!other.CompareTag("Player")) return;
+            if (!col.CompareTag("Player")) return;
             GM.GainPoint();
             Destroy(gameObject);
         }

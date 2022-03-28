@@ -16,8 +16,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _levelLostScreen;
 
 
+    public bool IsPlaying()
+    {
+        return playing;
+    }
+    
     public void LevelLost()
     {
+        Debug.Log("level lost");
         Pause();
         _levelLostScreen.SetActive(true);
     }
@@ -34,6 +40,7 @@ public class GameManager : MonoBehaviour
     
     public void GainPoint()
     {
+        Debug.Log("gained point");
         _scoreCounter.Add(1);
     }
     
@@ -66,6 +73,9 @@ public class GameManager : MonoBehaviour
         _despawnHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, _spawnHeight, 0)).y;
 
         _scoreCounter = GetComponent<ScoreCounter>();
+
+        rnd1 = new Random(83259857);
+        rnd2 = new Random(27508295);
     }
 
     private void Update()
@@ -102,8 +112,10 @@ public class GameManager : MonoBehaviour
         leftLane = Camera.main.ScreenToWorldPoint(new Vector3(leftLane, 0, 0)).x;
         rightLane = Camera.main.ScreenToWorldPoint(new Vector3(rightLane, 0, 0)).x;
 
-        var objectOdds = new Random().Next(100);
-        var laneOdds = new Random().Next(100);
+        var objectOdds = rnd1.Next(100);
+        var laneOdds = rnd2.Next(100);
+        
+        Debug.Log(objectOdds + " " + laneOdds);
 
         var spawnObj = objectOdds >= 50 ? obstacle : target;
         var spawnLane = laneOdds >= 50 ? rightLane : leftLane;
@@ -121,4 +133,6 @@ public class GameManager : MonoBehaviour
     private float _despawnHeight;
     private ScoreCounter _scoreCounter;
     private bool playing = true;
+    private Random rnd1;
+    private Random rnd2;
 }

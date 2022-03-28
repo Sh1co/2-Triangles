@@ -24,7 +24,7 @@ public class CarMovement : MonoBehaviour
         {
             foreach (var touch in Input.touches)
             {
-                if(touch.phase != TouchPhase.Began) return;
+                if(touch.phase != TouchPhase.Ended) return;
                 if ((touch.position.x <= Screen.width / 2 && isCarOne) ||
                     (touch.position.x > Screen.width / 2 && !isCarOne))
                 {

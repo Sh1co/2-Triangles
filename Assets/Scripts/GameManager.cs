@@ -1,4 +1,5 @@
 ﻿using System;
+using DefaultNamespace;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
@@ -6,17 +7,32 @@ using Random = System.Random;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _obstacle1;
-    [SerializeField] private GameObject _obstacle2;
-    [SerializeField] private GameObject _target1;
-    [SerializeField] private GameObject _target2;
+    [SerializeField] private Objects _obstacle1;
+    [SerializeField] private Objects _obstacle2;
+    [SerializeField] private Objects _target1;
+    [SerializeField] private Objects _target2;
     [SerializeField] private float _initialSpawnDelay = 1.0f;
+    [SerializeField] private float _movementSpeed = 5.0f;
 
 
+    public void LevelLost()
+    {
+        
+    }
+    
+    public void GainPoint()
+    {
+        
+    }
+    
+    
     private void Start()
     {
         spawnHeight = Screen.height * 1.1f;
         spawnHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, spawnHeight, 0)).y;
+        
+        despawnHeight = -Screen.height * 0.1f;
+        despawnHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, spawnHeight, 0)).y;
     }
 
     private void Update()
@@ -58,10 +74,15 @@ public class GameManager : MonoBehaviour
         var spawnObj = objectOdds >= 50 ? obstacle : target;
         var spawnLane = laneOdds >= 50 ? rightLane : leftLane;
 
-        Instantiate(spawnObj, new Vector3(spawnLane, spawnHeight), quaternion.identity);
+        var obj = Instantiate(spawnObj, new Vector3(spawnLane, spawnHeight), quaternion.identity);
+        obj.GM = this;
+        obj.MovementSpeed = _movementSpeed;
+        obj.DespawnHeight = despawnHeight;
     }
+    
 
     private float spawnCounter1 = 0;
     private float spawnCounter2 = -0.1f;
     private float spawnHeight;
+    private float despawnHeight;
 }

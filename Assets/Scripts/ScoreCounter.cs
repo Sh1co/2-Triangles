@@ -3,26 +3,31 @@ using UnityEngine;
 
 public class ScoreCounter : MonoBehaviour
 {
-    public Action<int> ScoreUpdated;
+    public Action ScoreUpdated;
+    
+    
+    public int Score { get; private set; } = 0;
+    public int HighScore { get; private set; } = 0;
 
     private void Start()
     {
-        _highScore = PlayerPrefs.GetInt("HighScore", 0);
+        HighScore = PlayerPrefs.GetInt("HighScore", 0);
     }
 
     public void Add(int value)
     {
-        _score += value;
-        if (_score <= _highScore) return;
-        _highScore = _score;
-        PlayerPrefs.SetInt("HighScore", _highScore);
+        Score += value;
+        if (Score >= HighScore)
+        {
+            HighScore = Score;
+            PlayerPrefs.SetInt("HighScore", HighScore);
+        }
+        ScoreUpdated?.Invoke();
     }
 
     public void ResetScore()
     {
-        _score = 0;
+        Score = 0;
+        ScoreUpdated?.Invoke();
     }
-
-    private int _score = 0;
-    private int _highScore = 0;
 }

@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _initialSpawnDelay = 1.0f;
     [SerializeField] private float _movementSpeed = 5.0f;
     [SerializeField] private GameObject _levelLostScreen;
+    [SerializeField] private GameObject _pausePanel;
+    [SerializeField] private GameObject _gameplayHUD;
+    [SerializeField] private GameObject _startMenu;
 
 
     public bool IsPlaying()
@@ -23,14 +26,16 @@ public class GameManager : MonoBehaviour
     
     public void LevelLost()
     {
-        Debug.Log("level lost");
         Pause();
         _levelLostScreen.SetActive(true);
+        _gameplayHUD.SetActive(false);
     }
 
     public void ResetLevel()
     {
+        _levelLostScreen.SetActive(false);
         _scoreCounter.ResetScore();
+        _gameplayHUD.SetActive(true);
         foreach (var obj in GameObject.FindGameObjectsWithTag("Object"))
         {
             Destroy(obj);
@@ -40,12 +45,21 @@ public class GameManager : MonoBehaviour
     
     public void GainPoint()
     {
-        Debug.Log("gained point");
         _scoreCounter.Add(1);
     }
-    
-    private void Play()
+
+    public void PauseLevel()
     {
+        Pause();
+        _pausePanel.SetActive(true);
+        _gameplayHUD.SetActive(false);
+    }
+
+    public void Play()
+    {
+        _pausePanel.SetActive(false);
+        _startMenu.SetActive(false);
+        _gameplayHUD.SetActive(true);
         foreach (var obj in GameObject.FindGameObjectsWithTag("Object"))
         {
             obj.GetComponent<Objects>().MovementSpeed = _movementSpeed;
@@ -132,7 +146,7 @@ public class GameManager : MonoBehaviour
     private float _spawnHeight;
     private float _despawnHeight;
     private ScoreCounter _scoreCounter;
-    private bool playing = true;
+    private bool playing;
     private Random rnd1;
     private Random rnd2;
 }

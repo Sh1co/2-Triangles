@@ -1107,7 +1107,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 89, y: -94.384}
+  m_AnchoredPosition: {x: 89, y: -94.38379}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &544524960
@@ -1905,7 +1905,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -321}
+  m_AnchoredPosition: {x: 34, y: -309}
   m_SizeDelta: {x: 302.9623, y: 302.9623}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1107280882
@@ -2052,7 +2052,7 @@ MonoBehaviour:
   _target1: {fileID: 7132005529584967665, guid: e5a970c62b3081a41b3a1fe8bd3cdb89, type: 3}
   _target2: {fileID: 8798396543113858799, guid: f626cfd03f89b7c4ebaf4079988df6ce, type: 3}
   _initialSpawnDelay: 1
-  _movementSpeed: 4
+  _movementSpeed: 3.2
   _levelLostScreen: {fileID: 914092419}
   _pausePanel: {fileID: 1474823538}
   _gameplayHUD: {fileID: 689035138}
@@ -2701,7 +2701,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -321}
+  m_AnchoredPosition: {x: 34, y: -309}
   m_SizeDelta: {x: 302.9623, y: 302.9623}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2048842660

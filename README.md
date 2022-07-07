@@ -1,8 +1,8 @@
 # 2-Triangles
-A clone of 2-Cars game made by Ketchapp made in Unity
+A clone of 2-Cars game made by Ketchapp made in Unity.
 
 
-## Gameplay video
+## Gameplay video:
 
 [![IMAGE_ALT](https://img.youtube.com/vi/BAl_Jlh4020/0.jpg)](https://youtube.com/shorts/BAl_Jlh4020)
 

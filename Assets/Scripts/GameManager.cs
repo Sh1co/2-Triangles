@@ -1,7 +1,5 @@
-﻿using System;
-using DefaultNamespace;
+﻿using DefaultNamespace;
 using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
 
@@ -17,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _gameplayHUD;
     [SerializeField] private GameObject _startMenu;
+    [SerializeField] private float _maxSpeedMultiplier = 2.0f;
+    [SerializeField] private int _maxSpeedingUpScore = 2000;
 
 
     public bool IsPlaying()
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
         _levelLostScreen.SetActive(false);
         _scoreCounter.ResetScore();
         _gameplayHUD.SetActive(true);
+        Time.timeScale = 1.0f;
         foreach (var obj in GameObject.FindGameObjectsWithTag("Object"))
         {
             Destroy(obj);
@@ -88,12 +89,15 @@ public class GameManager : MonoBehaviour
 
         _scoreCounter = GetComponent<ScoreCounter>();
 
+        Time.timeScale = 1.0f;
+
         rnd1 = new Random(83259857);
         rnd2 = new Random(27508295);
     }
 
     private void Update()
     {
+        UpdateTimeScale();
         if (!playing) return;
         IncrementCounters(Time.deltaTime);
         if (_spawnCounter1 >= _initialSpawnDelay)
@@ -106,7 +110,6 @@ public class GameManager : MonoBehaviour
             _spawnCounter2 = 0;
             SpawnObject(false);
         }
-        
     }
 
     private void IncrementCounters(float deltaTime)
@@ -138,6 +141,23 @@ public class GameManager : MonoBehaviour
         obj.GM = this;
         obj.MovementSpeed = _movementSpeed;
         obj.DespawnHeight = _despawnHeight;
+    }
+    private float Logerp(float a, float b, float t)
+    {
+        return a * Mathf.Pow(b / a, t);
+    }
+
+    private void UpdateTimeScale()
+    {
+        if (_scoreCounter.Score > _maxSpeedingUpScore)
+        {
+            Time.timeScale = _maxSpeedMultiplier;
+            return;
+        }
+        var scale = Logerp(1, _maxSpeedMultiplier, 1.0f * _scoreCounter.Score / _maxSpeedingUpScore);
+        Time.timeScale = scale;
+        Debug.Log(Time.timeScale + " " + scale);
+
     }
     
 

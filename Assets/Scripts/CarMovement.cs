@@ -21,7 +21,7 @@ public class CarMovement : MonoBehaviour
         if ((isRight && transform.position.x < rightLane) ||
             (!isRight && transform.position.x > leftLane))
         {
-            transform.Translate(transform.right * (isRight ? 1f : -1f) * switchSpeed * Time.deltaTime);
+            transform.Translate(transform.right * ((isRight ? 1f : -1f) * switchSpeed * Time.deltaTime));
         }
         else
         {

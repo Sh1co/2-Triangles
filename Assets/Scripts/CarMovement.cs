@@ -5,6 +5,7 @@ public class CarMovement : MonoBehaviour
     [SerializeField] private bool isCarOne;
     [SerializeField] private float switchSpeed = 1.0f;
     [SerializeField] private GameManager GM;
+    [SerializeField] private float ScreenTopDeadZone = 10;
 
     private void Start()
     {
@@ -15,7 +16,7 @@ public class CarMovement : MonoBehaviour
         rightLane = Camera.main.ScreenToWorldPoint(new Vector3(rightLane, 0, 0)).x;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!GM.IsPlaying()) return;
         if ((isRight && transform.position.x < rightLane) ||
@@ -33,6 +34,7 @@ public class CarMovement : MonoBehaviour
             foreach (var touch in Input.touches)
             {
                 if(touch.phase != TouchPhase.Began) return;
+                if (touch.position.y > Screen.height * ((100 - ScreenTopDeadZone) / 100)) return;
                 if ((touch.position.x <= Screen.width / 2 && isCarOne) ||
                     (touch.position.x > Screen.width / 2 && !isCarOne))
                 {

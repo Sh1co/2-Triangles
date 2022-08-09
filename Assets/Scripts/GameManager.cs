@@ -131,8 +131,6 @@ public class GameManager : MonoBehaviour
 
         var objectOdds = rnd1.Next(100);
         var laneOdds = rnd2.Next(100);
-        
-        Debug.Log(objectOdds + " " + laneOdds);
 
         var spawnObj = objectOdds >= 50 ? obstacle : target;
         var spawnLane = laneOdds >= 50 ? rightLane : leftLane;
@@ -156,8 +154,6 @@ public class GameManager : MonoBehaviour
         }
         var scale = Logerp(1, _maxSpeedMultiplier, 1.0f * _scoreCounter.Score / _maxSpeedingUpScore);
         Time.timeScale = scale;
-        Debug.Log(Time.timeScale + " " + scale);
-
     }
     
 

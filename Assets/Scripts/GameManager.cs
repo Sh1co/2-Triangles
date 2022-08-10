@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(obj);
         }
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Target"))
+        {
+            Destroy(obj);
+        }
         playing = true;
     }
     
@@ -65,6 +69,10 @@ public class GameManager : MonoBehaviour
         {
             obj.GetComponent<Objects>().MovementSpeed = _movementSpeed;
         }
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Target"))
+        {
+            obj.GetComponent<Objects>().MovementSpeed = _movementSpeed;
+        }
 
         playing = true;
     }
@@ -72,6 +80,10 @@ public class GameManager : MonoBehaviour
     private void Pause()
     {
         foreach (var obj in GameObject.FindGameObjectsWithTag("Object"))
+        {
+            obj.GetComponent<Objects>().MovementSpeed = 0;
+        }
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Target"))
         {
             obj.GetComponent<Objects>().MovementSpeed = 0;
         }

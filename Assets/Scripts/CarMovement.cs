@@ -54,6 +54,7 @@ public class CarMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.CompareTag("Target")) return;
+        _targetHitVfx.transform.position = col.transform.position;
         _targetHitVfx.SendEvent("OnPlay");
     }
 
